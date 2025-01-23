@@ -15,7 +15,7 @@ class InverseKinematics:
         self.kinematics = KinematicsDefinition()
 
 
-    def calc(self, position):
+    def calc(self, end_effector_position: np.ndarray):
         '''
         input:
             end-effector position: size (N, 9)
@@ -24,12 +24,12 @@ class InverseKinematics:
                 shape = (data_num, 9)
         '''
         theta = [0]*3
-        for i, pos_1claw in enumerate(np.split(position, 3, axis=-1)):
+        for i, pos_1claw in enumerate(np.split(end_effector_position, 3, axis=-1)):
             theta[i] = self.calc_1claw(pos_1claw)
         return np.concatenate(theta, axis=-1)
 
 
-    def calc_1claw(self, position):
+    def calc_1claw(self, end_effector_position: np.ndarray):
         '''
         input:
             endeffector position: size (N, 3)
@@ -38,12 +38,12 @@ class InverseKinematics:
                 shape = (data_num, 3)
                 3     = theta_dim
         '''
-        assert len(position.shape) == 2
-        assert position.shape[-1] == 3
+        assert len(end_effector_position.shape) == 2
+        assert end_effector_position.shape[-1] == 3
         # ----
-        x = position[:, 0]
-        y = position[:, 1]
-        z = position[:, 2]
+        x = end_effector_position[:, 0]
+        y = end_effector_position[:, 1]
+        z = end_effector_position[:, 2]
         # ----
         theta0 = np.arctan2(z, x) # np.arctan2(y, x)
         # ----

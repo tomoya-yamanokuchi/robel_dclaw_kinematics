@@ -8,7 +8,7 @@ class ForwardKinematics:
         self.kinematics = KinematicsDefinition()
 
 
-    def calc(self, theta):
+    def calc(self, theta) -> np.ndarray:
         '''
         input:
             joint position (1 claw)
